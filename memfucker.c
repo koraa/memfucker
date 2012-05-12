@@ -4,10 +4,14 @@
 #define true 0
 #define false -1
 
-// Unit conversion byte --> ?
+// Unit conversion byte <--> ?
 #define kb(x) ((long int) x) * 1024
 #define mb(x) (kb(x) * 1024) // x * 1024**2
-#define gb(x) (mb(x) * 1024)
+#define gb(x) (mb(x) * 1024) // x * 1024**3
+
+#define to_kb(x) (x) / 1024
+#define to_mb(x) (to_kb(x) / 1024)
+#define to_gb(x) (to_mb(x) / 1024)
 
 // Maxsize for allocation
 #define maxalloc mb(512)
@@ -43,12 +47,17 @@ inline char** alloc(long int size) {
 
   char** blocks = (char**) calloc(blocknum+1, sizeof(char*));
 
-  int cnt;
+  long int cnt;
   for (cnt = 0; cnt < blocknum; cnt++) {
     blocks[cnt] = blockalloc(maxalloc);
+    fprintf(stderr, "Block %li done: %li mb allocated.\n", 
+	    cnt, to_mb((cnt+1) * maxalloc));
   }
+
   if (lastsize > 0)
-    blocks[blocknum /*last*/] = blockalloc(lastsize);
+    blocks[blocknum /*last*/] = blockalloc(lastsize);  
+  fprintf(stderr, "Block %li done! %li mb allocated.\n", 
+	  blocknum, to_mb(size));
 
   return blocks;
 }
