@@ -33,4 +33,4 @@ gdb : debug
 #####################
 
 clean :
-	rm *.ii *.o *.s *.su rtl $(RELEASE_NAME) $(DEBUG_NAME)
+	rm -f *.ii *.i *.o *.s *.su rtl $(RELEASE_NAME) $(DEBUG_NAME)
