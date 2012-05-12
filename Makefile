@@ -1,5 +1,4 @@
-GCC  = gcc
-LIBS = -lstdc++
+GCC  = cc
 
 RELEASE_FLAGS = -Ofast -Wall
 DEBUG_FLAGS  = -O0 -Wall -g3 -v -fdump-final-insns=rtl -fmem-report -fstack-usage -save-temps
