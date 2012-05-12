@@ -9,11 +9,28 @@ DEBUG_NAME = memfucker_debug
 
 IFILE = memfucker.c
 
+# Amount of memory to alloc on autorun, Megs
+STD_FILE_ALLOC = 1024
+
 release :
 	$(GCC) $(IFILE) $(LIBS) $(RELEASE_FLAGS) -o $(RELEASE_NAME)
 
 debug :
 	$(GCC) $(IFILE) $(LIBS) $(DEBUG_FLAGS) -o $(DEBUG_NAME)
+
+####################
+
+run : release
+	./$(RELEASE_NAME) $(STD_FILE_ALLOC)
+
+dbrun : debug
+	./$(DEBUG_NAME) $(STD_FILE_ALLOC)
+
+gdb : debug
+	@echo "--------------------------------------------------"
+	gdb --args ./$(DEBUG_NAME) $(STD_FILE_ALLOC)
+
+#####################
 
 clean :
 	rm *.ii *.o *.s *.su rtl $(RELEASE_NAME) $(DEBUG_NAME)
