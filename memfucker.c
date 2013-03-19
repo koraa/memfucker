@@ -18,7 +18,7 @@
 
 char* appname;
 
-inline void fail(long int size) {
+inline void fail(size_t size) {
   fprintf(stderr, "Could not allocate memory of length %li . Format:\n\n%s [size]\n\n", size, appname);
   exit(1);
 }
