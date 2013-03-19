@@ -9,7 +9,7 @@
 #define mb(x) (kb(x) * 1024) // x * 1024**2
 #define gb(x) (mb(x) * 1024) // x * 1024**3
 
-#define to_kb(x) (x) / 1024
+#define to_kb(x) ((x) / 1024)
 #define to_mb(x) (to_kb(x) / 1024)
 #define to_gb(x) (to_mb(x) / 1024)
 
