@@ -5,7 +5,7 @@
 #define false -1
 
 // Unit conversion byte <--> ?
-#define kb(x) ((long int) x) * 1024
+#define kb(x) (((size_t) x) * 1024)
 #define mb(x) (kb(x) * 1024) // x * 1024**2
 #define gb(x) (mb(x) * 1024) // x * 1024**3
 
