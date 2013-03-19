@@ -26,7 +26,7 @@ inline void fail(long int size) {
 /**
  * Allocate one block of memory
  */
-inline char* blockalloc(long int size) {
+inline char* blockalloc(size_t size) {
   char* pt = (char*) malloc(size);
   if (pt == NULL || size < 1) 
     fail(size);
@@ -41,9 +41,9 @@ inline char* blockalloc(long int size) {
 /**
  * Allocate multiple block of memory of size n.
  */
-inline char** alloc(long int size) {
-  long int blocknum = size / maxalloc;
-  long int lastsize = size % maxalloc;
+inline char** alloc(size_t size) {
+  size_t blocknum = size / maxalloc;
+  size_t lastsize = size % maxalloc;
 
   char** blocks = (char**) calloc(blocknum+1, sizeof(char*));
 
@@ -67,7 +67,7 @@ int main(int argc, char** argv) {
 
   if (argc < 2)
     fail(-1);
-  long int size = mb(atol(argv[1]));
+  size_t size = mb(atol(argv[1]));
 
   alloc(size);
 
