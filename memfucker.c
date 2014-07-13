@@ -14,13 +14,10 @@
 #define to_mb(x) (to_kb(x) / 1024)
 #define to_gb(x) (to_mb(x) / 1024)
 
-// Maxsize for allocation
-#define maxalloc mb(512)
-
 char* appname;
 
 inline void fail(size_t size) {
-  fprintf(stderr, "Could not allocate memory of length %li . Format:\n\n%s [size]\n\n", size, appname);
+  fprintf(stderr, "Could not allocate memory of length %li . Format:\n\n%s size [blocksize]\n\n", size, appname);
   exit(1);
 }
 
@@ -42,17 +39,21 @@ inline char* blockalloc(size_t size) {
 /**
  * Allocate multiple block of memory of size n.
  */
-inline char** alloc(size_t size) {
-  size_t blocknum = size / maxalloc;
-  size_t lastsize = size % maxalloc;
+inline char** alloc(size_t size, size_t block) {
+  size_t blocknum = size / block;
+  size_t lastsize = size % block;
+
+  fprintf(stderr, "Allocating %liMb in %li %liMb blocks "
+      "and one %liMb block.\n",
+      to_mb(size), blocknum, to_mb(block), to_mb(lastsize));
 
   char** blocks = (char**) calloc(blocknum+1, sizeof(char*));
 
   long int cnt;
   for (cnt = 0; cnt < blocknum; cnt++) {
-    blocks[cnt] = blockalloc(maxalloc);
+    blocks[cnt] = blockalloc(block);
     fprintf(stderr, "Block %li done: %li mb allocated.\n", 
-      cnt, to_mb((cnt+1) * maxalloc));
+      cnt, to_mb((cnt+1) * block));
   }
 
   if (lastsize > 0)
@@ -66,11 +67,17 @@ inline char** alloc(size_t size) {
 int main(int argc, char** argv) {
   appname = argv[0];
 
-  if (argc < 2)
-    fail(-1);
-  size_t size = mb(atol(argv[1]));
+  size_t size=0, block = mb(512);
 
-  alloc(size);
+  if (argc >= 2)
+    size = mb(atol(argv[1]));
+  if (argc >= 3)
+    block = mb(atol(argv[2]));
+
+  if (argc > 3 || argc < 2)
+    fail(-1);
+
+  alloc(size, block);
 
   while (1) {
     sleep(500);
