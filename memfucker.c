@@ -52,13 +52,13 @@ inline char** alloc(size_t size, size_t block) {
   long int cnt;
   for (cnt = 0; cnt < blocknum; cnt++) {
     blocks[cnt] = blockalloc(block);
-    fprintf(stderr, "Block %li done: %li mb allocated.\n",
+    fprintf(stderr, "Block %li done: %liMb allocated.\n",
       cnt, to_mb((cnt+1) * block));
   }
 
   if (lastsize > 0)
     blocks[blocknum /*last*/] = blockalloc(lastsize);
-  fprintf(stderr, "Block %li done! %li mb allocated.\n",
+  fprintf(stderr, "Block %li done! %liMb allocated.\n",
     blocknum, to_mb(size));
 
   return blocks;
