@@ -26,7 +26,7 @@ inline void fail(size_t size) {
  */
 inline char* blockalloc(size_t size) {
   char* pt = (char*) malloc(size);
-  if (pt == NULL || size < 1) 
+  if (pt == NULL || size < 1)
     fail(size);
 
   int cnt;
@@ -52,13 +52,13 @@ inline char** alloc(size_t size, size_t block) {
   long int cnt;
   for (cnt = 0; cnt < blocknum; cnt++) {
     blocks[cnt] = blockalloc(block);
-    fprintf(stderr, "Block %li done: %li mb allocated.\n", 
+    fprintf(stderr, "Block %li done: %li mb allocated.\n",
       cnt, to_mb((cnt+1) * block));
   }
 
   if (lastsize > 0)
-    blocks[blocknum /*last*/] = blockalloc(lastsize);  
-  fprintf(stderr, "Block %li done! %li mb allocated.\n", 
+    blocks[blocknum /*last*/] = blockalloc(lastsize);
+  fprintf(stderr, "Block %li done! %li mb allocated.\n",
     blocknum, to_mb(size));
 
   return blocks;
